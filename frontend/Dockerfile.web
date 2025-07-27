@@ -1,0 +1,13 @@
+# Build static assets
+FROM node:20 AS build
+WORKDIR /web
+COPY frontend/package*.json ./
+RUN npm i
+COPY frontend/ ./
+RUN npm run build
+
+# Serve with Nginx + reverse proxy to backend
+FROM nginx:alpine
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /web/dist /usr/share/nginx/html
+EXPOSE 80

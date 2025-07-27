@@ -1,0 +1,20 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Databases (SQLite)
+**/*.db
+
+# Node / Vite
+frontend/node_modules/
+frontend/dist/
+
+# IDEs
+.vs/
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store

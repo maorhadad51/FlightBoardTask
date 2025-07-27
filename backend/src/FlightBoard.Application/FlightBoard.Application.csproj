@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlightBoard.Domain\FlightBoard.Domain.csproj" />
+    <ProjectReference Include="..\FlightBoard.Common\FlightBoard.Common.csproj" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+  </ItemGroup>
+</Project>

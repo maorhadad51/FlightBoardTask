@@ -1,0 +1,21 @@
+# Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY backend/src/FlightBoard.Domain/*.csproj backend/src/FlightBoard.Domain/
+COPY backend/src/FlightBoard.Common/*.csproj backend/src/FlightBoard.Common/
+COPY backend/src/FlightBoard.Application/*.csproj backend/src/FlightBoard.Application/
+COPY backend/src/FlightBoard.Infrastructure/*.csproj backend/src/FlightBoard.Infrastructure/
+COPY backend/src/FlightBoard.API/*.csproj backend/src/FlightBoard.API/
+RUN dotnet restore backend/src/FlightBoard.API/FlightBoard.API.csproj
+COPY backend/ backend/
+RUN dotnet publish backend/src/FlightBoard.API/FlightBoard.API.csproj -c Release -o /app/publish
+
+# Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENV ASPNETCORE_URLS=http://+:8080
+ENV DB_PROVIDER=sqlite
+ENV ConnectionStrings__Sqlite=Data Source=/app/data/flightboard.db
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "FlightBoard.API.dll"]

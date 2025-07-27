@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - DB_PROVIDER=sqlite
+      - ConnectionStrings__Sqlite=Data Source=/app/data/flightboard.db
+    volumes:
+      - api_data:/app/data
+    ports:
+      - "8080:8080"
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.web
+    depends_on:
+      - api
+    ports:
+      - "8081:80"
+
+volumes:
+  api_data:
